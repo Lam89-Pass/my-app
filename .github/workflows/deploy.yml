@@ -1,0 +1,46 @@
+name: Bantai Deploy Dewaweb
+
+on:
+  push:
+    branches:
+      - main # Ganti ke 'master' kalau branch lu namanya master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Sesuaikan dengan versi Node di Dewaweb lu
+
+      - name: Install & Build
+        run: |
+          npm install
+          npm run build
+        env:
+          # Masukkan semua ENV lu di sini supaya build-nya nggak error
+          NEXT_PUBLIC_GEMINI_API_KEY: ${{ secrets.NEXT_PUBLIC_GEMINI_API_KEY }}
+          # Jika ada API Backend Laravel:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: 🚀 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Kita upload semua file yang sudah siap. 
+          # Folder .next dan public adalah yang paling krusial.
+          local-dir: ./
+          exclude: |
+            **/.git*
+            **/.github*
+            node_modules/**
+            src/**
+            README.md
+            .env*
