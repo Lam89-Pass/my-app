@@ -6,11 +6,24 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
+// 1. TAMBAHKAN INTERFACE PROJECT BIAR TS GAK BINGUNG
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+  tags: string | string[];
+  image_url: string;
+  project_date: string;
+  created_at: string;
+}
+
 export default function KelolaProject() {
-  const [projects, setProjects] = useState([]);
+  // 2. BERI TIPE DATA <Project[]>
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("newest");
@@ -29,7 +42,7 @@ export default function KelolaProject() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
-  const [idToDelete, setIdToDelete] = useState(null);
+  const [idToDelete, setIdToDelete] = useState<string | null>(null);
   const [statusPopup, setStatusPopup] = useState({ success: true, message: "" });
 
   const fetchProjects = async () => {
@@ -38,6 +51,8 @@ export default function KelolaProject() {
       const res = await fetch("/api/projects");
       const data = await res.json();
       setProjects(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
     } finally {
       setLoading(false);
     }
@@ -111,15 +126,17 @@ export default function KelolaProject() {
         fetchProjects();
         triggerNotify(true, "Project dihapus.");
       }
+    } catch (error) {
+      triggerNotify(false, "Gagal menghapus.");
     } finally {
       setIdToDelete(null);
     }
   };
 
   const filteredData = useMemo(() => {
-    return projects
-      .filter((p: any) => (p.title || "").toLowerCase().includes(searchQuery.toLowerCase()))
-      .sort((a: any, b: any) => {
+    return [...projects]
+      .filter((p) => (p.title || "").toLowerCase().includes(searchQuery.toLowerCase()))
+      .sort((a, b) => {
         const dA = new Date(a.created_at).getTime();
         const dB = new Date(b.created_at).getTime();
         return sortOrder === "newest" ? dB - dA : dA - dB;
@@ -193,7 +210,7 @@ export default function KelolaProject() {
               >
                 <div className="group relative w-full h-32 bg-black border-2 border-dashed border-zinc-800 rounded-2xl flex flex-col items-center justify-center overflow-hidden hover:border-red-600 transition-all">
                   {formData.image_url ? (
-                    <img src={formData.image_url} className="w-full h-full object-cover" />
+                    <img src={formData.image_url} className="w-full h-full object-cover" alt="preview" />
                   ) : (
                     <>
                       <UploadCloud size={20} className="text-zinc-800 group-hover:text-red-600 transition-colors" />
@@ -254,11 +271,11 @@ export default function KelolaProject() {
         {loading ? (
           <div className="p-20 text-center text-zinc-800 font-mono text-[10px] animate-pulse italic tracking-[0.5em]">SYNCING_REPOSITORIES...</div>
         ) : (
-          currentItems.map((pj: any) => (
+          currentItems.map((pj) => (
             <div key={pj.id} className="group bg-zinc-900/20 border border-zinc-900 p-4 rounded-2xl flex items-center justify-between hover:border-red-600/30 transition-all">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 bg-zinc-800 rounded-xl overflow-hidden border border-zinc-700">
-                  <img src={pj.image_url || "/no-img.png"} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all" />
+                  <img src={pj.image_url || "/no-img.png"} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all" alt="thumb" />
                 </div>
                 <div>
                   <h4 className="text-white font-bold text-xs uppercase tracking-tight group-hover:text-red-600 transition-colors italic">{pj.title}</h4>
