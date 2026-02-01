@@ -51,9 +51,10 @@ export default function ChatAI() {
 
   return (
     <>
+      {/* TOMBOL TOGGLE - Turun dikit ke bottom-28 untuk mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-10 left-6 md:left-10 z-[100] w-14 h-14 bg-zinc-900 border border-white/10 text-white rounded-full flex items-center justify-center shadow-2xl hover:border-red-600 transition-all"
+        className="fixed bottom-28 md:bottom-10 left-6 md:left-10 z-[110] w-14 h-14 bg-zinc-900 border border-white/10 text-white rounded-full flex items-center justify-center shadow-2xl hover:border-red-600 transition-all active:scale-90"
       >
         {isOpen ? <X size={24} /> : <MessageSquare size={24} className="text-red-600 shadow-[0_0_15px_rgba(220,38,38,0.5)]" />}
       </button>
@@ -61,19 +62,22 @@ export default function ChatAI() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-28 left-6 md:left-10 z-[100] w-[350px] max-w-[90vw] h-[500px] bg-[#0c0c0c] border border-white/10 rounded-[2rem] shadow-2xl flex flex-col overflow-hidden"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            // Jendela chat turun ke bottom-44 di mobile
+            className="fixed bottom-44 md:bottom-28 left-6 md:left-10 z-[110] w-[350px] max-w-[85vw] h-[420px] md:h-[500px] bg-[#0c0c0c] border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden"
           >
+            {/* HEADER */}
             <div className="p-5 bg-zinc-900/50 border-b border-white/5 flex items-center gap-3">
               <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
                 <Bot size={20} className="text-white" />
               </div>
-              <h4 className="text-xs font-black text-white uppercase tracking-widest">SysExp Assistant</h4>
+              <h4 className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">SysExp Assistant</h4>
             </div>
 
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4">
+            {/* AREA PESAN */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div className={`max-w-[85%] p-3.5 rounded-2xl text-[11px] shadow-sm ${msg.role === "user" ? "bg-red-600 text-white rounded-tr-none" : "bg-zinc-800 text-zinc-300 border border-white/5 rounded-tl-none"}`}>
@@ -91,21 +95,22 @@ export default function ChatAI() {
               ))}
               {loading && (
                 <div className="flex justify-start">
-                  <div className="bg-zinc-800 p-3 rounded-2xl">
+                  <div className="bg-zinc-800 p-3 rounded-2xl border border-white/5">
                     <Loader2 size={16} className="animate-spin text-red-600" />
                   </div>
                 </div>
               )}
             </div>
 
+            {/* INPUT */}
             <div className="p-4 bg-zinc-900/50 border-t border-white/5 flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleChat()}
-                placeholder="Ketik pesan..."
-                className="flex-1 bg-black border border-white/10 rounded-xl px-4 py-2 text-xs text-white outline-none focus:border-red-600"
+                placeholder="Tanya Salam..."
+                className="flex-1 bg-black border border-white/10 rounded-xl px-4 py-2 text-xs text-white outline-none focus:border-red-600 transition-all"
               />
               <button onClick={handleChat} className="w-10 h-10 bg-red-600 text-white rounded-xl flex items-center justify-center active:scale-95">
                 <Send size={18} />

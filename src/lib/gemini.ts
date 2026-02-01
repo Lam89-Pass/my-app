@@ -1,7 +1,7 @@
 export const getGeminiResponse = async (userMsg: string): Promise<string> => {
   try {
     const trimmed = userMsg?.trim();
-    if (!trimmed) return "Ketik sesuatu dulu ya 😊";
+    if (!trimmed) return "Ketik sesuatu dulu ya...";
 
     const response = await fetch("/api/chat", {
       method: "POST",
@@ -11,18 +11,14 @@ export const getGeminiResponse = async (userMsg: string): Promise<string> => {
 
     const data = await response.json();
 
-    if (!response.ok || data.error) {
+    if (!response.ok) {
       console.error("API Error:", data.error);
-      return "Sistem AI lagi down, tapi Pintu Login lu tetep aman.";
-    }
-
-    if (!data.text || typeof data.text !== "string") {
-      return "Hmm, AI-nya diam nih. Coba lagi sebentar ya.";
+      return data.error || "Sistem AI sedang bermasalah.";
     }
 
     return data.text;
   } catch (error) {
-    console.error("Critical Error:", error);
-    return "Sistem AI lagi down, tapi Pintu Login lu tetep aman.";
+    console.error("Fetch Error:", error);
+    return "Gagal terhubung ke server.";
   }
 };

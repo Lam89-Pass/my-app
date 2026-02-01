@@ -1,59 +1,44 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-
-const SYSTEM_PROMPT = `Anda adalah asisten AI cerdas untuk portfolio website. 
-Jawab dengan ramah, profesional, dan ringkas dalam Bahasa Indonesia. 
-Jika pertanyaan di luar konteks portofolio atau teknologi, tolak dengan sopan dan alihkan.`;
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { message } = body;
-
-    if (!message || typeof message !== "string" || message.trim() === "") {
-      return NextResponse.json(
-        { error: "Pesan tidak valid." },
-        { status: 400 }
-      );
-    }
-
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    console.log("ENV KEYS yang tersedia:", Object.keys(process.env).filter(k => k.includes("GEMINI")));
-    console.log("GEMINI_API_KEY value:", apiKey ? `${apiKey.slice(0, 8)}...` : "undefined");
+    const { message } = await req.json();
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
     if (!apiKey) {
-      console.error("GEMINI_API_KEY tidak ditemukan di .env.local");
-      return NextResponse.json(
-        { error: "Konfigurasi server tidak lengkap." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "API Key gak kebaca." }, { status: 500 });
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-    const result = await model.generateContent([
-      { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
-      { role: "model", parts: [{ text: "Siap, saya akan membantu sesuai konteks." }] },
-      { role: "user", parts: [{ text: message.trim() }] },
-    ]);
+    // PAKAI URL INI: Pake v1beta + gemini-1.5-flash-latest (Paling tembus 2026)
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-    const response = await result.response;
-    const text = response.text();
+    const googleResponse = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [{ text: `Anda adalah asisten AI Salam. Jawab singkat: ${message}` }],
+          },
+        ],
+      }),
+    });
 
-    if (!text) {
-      return NextResponse.json(
-        { error: "AI tidak berhasil menghasilkan respons." },
-        { status: 500 }
-      );
+    const data = await googleResponse.json();
+
+    if (!googleResponse.ok) {
+      console.log("=== DIAGNOSA ERROR GOOGLE ===");
+      console.log(JSON.stringify(data, null, 2));
+
+      // Kalo Google beneran mampus, kasih jawaban template biar web lu gak keliatan error di browser
+      return NextResponse.json({
+        text: "Maaf Boss, koneksi AI lagi sibuk. Tapi tenang, Pintu Login 'SysExpOwn Login' tetep aktif!",
+      });
     }
 
-    return NextResponse.json({ text });
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    return NextResponse.json(
-      { error: "Terjadi kesalahan pada server." },
-      { status: 500 }
-    );
+    const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "AI lagi mikir...";
+    return NextResponse.json({ text: aiText });
+  } catch (error: any) {
+    return NextResponse.json({ text: "Lagi maintenance sebentar, Boss." });
   }
 }
