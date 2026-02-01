@@ -7,7 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
 export default function KelolaBlog() {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
   const [editId, setEditId] = useState(null);
