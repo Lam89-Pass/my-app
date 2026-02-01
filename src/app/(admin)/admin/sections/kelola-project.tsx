@@ -131,13 +131,11 @@ export default function KelolaProject() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 relative px-4 md:px-0 selection:bg-red-600/30">
-      {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase italic">
-            Kelola <span className="text-red-600 font-outline-2 text-transparent">Project</span>
+          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase">
+            Kelola-<span className="text-red-600 font-outline-2">Project</span>
           </h1>
-          <p className="text-zinc-600 text-[10px] font-mono mt-1 uppercase tracking-[0.3em] italic">{`> SYSTEM_LOG: ACTIVE`}</p>
         </div>
         <button
           onClick={() => {
@@ -151,7 +149,6 @@ export default function KelolaProject() {
         </button>
       </div>
 
-      {/* FILTER SEARCH */}
       <div className="bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50 flex flex-col md:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-700" size={16} />
@@ -168,7 +165,6 @@ export default function KelolaProject() {
         </select>
       </div>
 
-      {/* REVISED MODAL (CENTERED & COMPACT) */}
       <AnimatePresence>
         {isFormOpen && (
           <div className="fixed inset-0 z-[150] flex items-center justify-center p-6">
@@ -180,7 +176,7 @@ export default function KelolaProject() {
               className="bg-zinc-900 border border-zinc-800 w-full max-w-[400px] rounded-[2.5rem] relative z-[160] max-h-[85vh] flex flex-col overflow-hidden shadow-2xl"
             >
               <div className="p-5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
-                <h2 className="text-white font-bold uppercase text-[9px] tracking-widest flex items-center gap-2 italic">
+                <h2 className="text-white font-bold uppercase text-[9px] tracking-widest flex items-center gap-2">
                   <LayoutGrid className="text-red-600" size={14} /> {editId ? "Ubah Project" : "New Project"}
                 </h2>
                 <button onClick={() => setIsFormOpen(false)} className="p-2.5 bg-zinc-800 rounded-xl text-zinc-400 hover:text-white transition-all">
@@ -254,7 +250,6 @@ export default function KelolaProject() {
         )}
       </AnimatePresence>
 
-      {/* LIST DATA */}
       <div className="grid grid-cols-1 gap-3">
         {loading ? (
           <div className="p-20 text-center text-zinc-800 font-mono text-[10px] animate-pulse italic tracking-[0.5em]">SYNCING_REPOSITORIES...</div>
@@ -296,7 +291,6 @@ export default function KelolaProject() {
         )}
       </div>
 
-      {/* PAGINATION */}
       {totalPages > 1 && (
         <div className="flex justify-between items-center bg-zinc-900/20 p-4 rounded-2xl border border-zinc-900">
           <button disabled={currentPage === 1} onClick={() => setCurrentPage((c) => c - 1)} className="p-2 text-zinc-700 hover:text-red-600 disabled:opacity-10">
@@ -311,7 +305,6 @@ export default function KelolaProject() {
         </div>
       )}
 
-      {/* POPUP KONFIRMASI */}
       <AnimatePresence>
         {showConfirm && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center px-6">
@@ -338,7 +331,6 @@ export default function KelolaProject() {
         )}
       </AnimatePresence>
 
-      {/* POPUP NOTIFIKASI */}
       <AnimatePresence>
         {showNotify && (
           <div className="fixed inset-0 z-[201] flex items-center justify-center px-6">

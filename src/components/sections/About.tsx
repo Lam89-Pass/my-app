@@ -35,7 +35,6 @@ export default function About() {
   return (
     <section id="about" className="py-24 bg-white dark:bg-black overflow-hidden selection:bg-red-600/30">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* 1. JUDUL */}
         <div className="text-center mb-20">
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl md:text-5xl font-black tracking-tighter mb-4 uppercase text-black dark:text-white">
             About <span className="text-red-600">Me.</span>
@@ -43,9 +42,7 @@ export default function About() {
           <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl mx-auto italic">"Mengenal lebih dekat perjalanan saya di dunia teknologi dan pengembangan web."</p>
         </div>
 
-        {/* 2. LAYOUT: FOTO & DESKRIPSI (FIXED MOBILE VISIBILITY) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-32">
-          {/* FOTO: Sekarang muncul di Mobile & Desktop */}
           <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="relative flex justify-center lg:justify-start order-first">
             <div className="relative w-full max-w-[280px] md:max-w-[350px]">
               <img
@@ -57,15 +54,13 @@ export default function About() {
                   WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
                 }}
               />
-              {/* Efek Glow di belakang foto */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-600/20 blur-[80px] md:blur-[100px] -z-0" />
             </div>
           </motion.div>
 
-          {/* DESKRIPSI */}
           <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 text-center lg:text-left">
             <h3 className="text-xl md:text-2xl font-bold text-black dark:text-white flex items-center justify-center lg:justify-start gap-3">
-              <Globe className="text-red-600 shrink-0" size={20} /> Muhamad Nur Salam
+              <Globe className="text-red-600 shrink-0" size={20} /> Muhamad Nur Salam | Fullstack Web Developer
             </h3>
 
             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm md:text-base">
@@ -73,7 +68,7 @@ export default function About() {
               <a href="https://www.unpas.ac.id" target="_blank" rel="noopener noreferrer" className="text-red-600 font-bold hover:underline mx-1">
                 Universitas Pasundan
               </a>
-              angkatan 2024. Saya memiliki spesialisasi dalam membangun aplikasi web modern menggunakan ekosistem <span className="text-red-600 font-medium">Next.js, Laravel, dan Tailwind CSS.</span>
+              angkatan 2024. Saya memiliki spesialisasi dalam membangun aplikasi web modern menggunakan <span className="text-red-600 font-medium">Next.js, Laravel, dan Tailwind CSS.</span>
             </p>
 
             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm md:text-base">
@@ -88,7 +83,6 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* 3. TIMELINE: EXPERIENCE & EDUCATION */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-32">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h4 className="flex items-center gap-3 text-lg font-black uppercase tracking-widest mb-10 text-black dark:text-white">
@@ -136,7 +130,6 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* 4. SKILLS */}
         <div>
           <h4 className="text-center text-lg font-black uppercase tracking-widest mb-16 text-black dark:text-white">
             My <span className="text-red-600">Skills.</span>

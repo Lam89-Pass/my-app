@@ -42,11 +42,9 @@ export default function Contact() {
 
   return (
     <section id="contact" className="w-full py-24 px-6 bg-black relative overflow-hidden selection:bg-red-600/30">
-      {/* BACKGROUND GLOW */}
       <div className="absolute -bottom-24 -left-24 w-[600px] h-[600px] bg-red-600/10 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-20 items-center">
-        {/* LEFT: TEXT & INFO (SEO STRATEGY) */}
         <div className="relative z-10">
           <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-3 text-red-600 mb-8">
             <span className="w-12 h-[2px] bg-red-600" />
@@ -54,7 +52,7 @@ export default function Contact() {
           </motion.div>
 
           <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85] mb-10 italic">
-            MARI <span className="text-red-600 font-outline-2 text-transparent">BICARA.</span>
+            .MARI <span className="text-red-600 font-outline-2">DISKUSI.</span>
           </h2>
 
           <p className="text-zinc-500 text-lg md:text-xl italic leading-relaxed max-w-lg mb-16 text-justify">
@@ -64,7 +62,7 @@ export default function Contact() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             <div className="group cursor-default">
               <p className="text-zinc-800 text-[9px] font-black uppercase tracking-widest mb-4 flex items-center gap-2 group-hover:text-red-600 transition-colors">
-                <Mail size={12} /> Email_Resmi
+                <Mail size={12} /> Email Resmi
               </p>
               <a href="mailto:aaallaaamm03@gmail.com" className="text-white font-mono text-lg hover:text-red-600 transition-all block break-all">
                 aaallaaamm03@gmail.com
@@ -72,14 +70,13 @@ export default function Contact() {
             </div>
             <div className="group cursor-default">
               <p className="text-zinc-800 text-[9px] font-black uppercase tracking-widest mb-4 flex items-center gap-2 group-hover:text-red-600 transition-colors">
-                <MapPin size={12} /> Lokasi_Saat_Ini
+                <MapPin size={12} /> Lokasi Saat Ini
               </p>
-              <p className="text-white font-mono text-lg uppercase tracking-tighter">Indonesia</p>
+              <p className="text-white font-mono text-lg uppercase tracking-tighter">Bandung | Indonesia</p>
             </div>
           </div>
         </div>
 
-        {/* RIGHT: INTERACTIVE FORM */}
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="relative bg-zinc-900/10 border border-zinc-900 p-8 md:p-14 rounded-[4rem] backdrop-blur-sm shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -149,7 +146,6 @@ export default function Contact() {
         </motion.div>
       </div>
 
-      {/* 🚀 POPUP NOTIFIKASI INTERAKTIF */}
       <AnimatePresence>
         {showPopup && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center px-6">
@@ -170,7 +166,7 @@ export default function Contact() {
 
               <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4 italic">{status === "success" ? "Berhasil Terkirim!" : "Gagal Mengirim!"}</h3>
               <p className="text-zinc-500 text-sm leading-relaxed mb-10">
-                {status === "success" ? "Pesan Anda telah dienkripsi dan dikirim ke Dashboard SysExp. Mohon tunggu balasan segera." : "Terjadi kegagalan pada protokol pengiriman. Silakan coba lagi nanti atau hubungi via email langsung."}
+                {status === "success" ? "Pesan Anda telah dienkripsi dan dikirim ke kami. Mohon tunggu balasan segera." : "Terjadi kegagalan pada protokol pengiriman. Silakan coba lagi nanti atau hubungi via email langsung."}
               </p>
 
               <button

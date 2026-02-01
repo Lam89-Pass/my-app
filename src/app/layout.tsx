@@ -1,5 +1,4 @@
-// src/app/layout.tsx
-import "./globals.css"; // Mengarah langsung ke file globals.css di root app
+import "./globals.css"; 
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });

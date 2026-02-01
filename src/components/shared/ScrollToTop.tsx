@@ -6,7 +6,6 @@ import { ChevronUp } from "lucide-react";
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Cek posisi scroll
   useEffect(() => {
     const toggleVisibility = () => {
       if (window.scrollY > 500) {

@@ -52,7 +52,6 @@ export default function BlogDash() {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-2 pb-20 selection:bg-red-600/30 min-h-screen flex flex-col font-sans">
-      {/* 1. SEJAJAR ATAS: SEARCH, BACK, & CUSTOM SORT */}
       <nav className="sticky top-2 z-50 flex flex-col md:flex-row items-center gap-3 bg-zinc-950/80 backdrop-blur-xl border border-zinc-900 p-2 rounded-3xl mb-12 shadow-2xl shadow-black">
         <Link href="/" className="flex items-center gap-2 bg-zinc-900 hover:bg-red-600 text-white px-5 py-3 rounded-2xl transition-all group shrink-0">
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -73,12 +72,11 @@ export default function BlogDash() {
           />
         </div>
 
-        {/* CUSTOM DROPDOWN PREMIUM (ANTI ABU-ABU) */}
         <div className="relative w-full md:w-52 shrink-0" ref={dropdownRef}>
           <button onClick={() => setIsOpen(!isOpen)} className="w-full flex items-center justify-between bg-zinc-900 border border-zinc-800 py-3 px-5 rounded-2xl hover:border-red-600 transition-all group">
             <div className="flex items-center gap-3">
               <ListFilter size={14} className="text-red-600" />
-              <span className="text-[9px] font-black uppercase tracking-widest text-zinc-300">{sortOrder === "terbaru" ? "LATEST POST" : "OLDEST POST"}</span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-zinc-300">{sortOrder === "terbaru" ? "Terbaru" : "Terlama"}</span>
             </div>
             <ChevronDown size={14} className={`text-zinc-600 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
           </button>
@@ -92,8 +90,8 @@ export default function BlogDash() {
                 className="absolute top-full mt-2 left-0 right-0 bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl z-[60]"
               >
                 {[
-                  { id: "terbaru", label: "LATEST POST" },
-                  { id: "terlama", label: "OLDEST POST" },
+                  { id: "terbaru", label: "Terbaru" },
+                  { id: "terlama", label: "Terlama" },
                 ].map((option) => (
                   <button
                     key={option.id}
@@ -112,21 +110,18 @@ export default function BlogDash() {
         </div>
       </nav>
 
-      {/* 2. HEADER: SEO DRIVEN HEADLINE */}
       <header className="mb-14 relative">
         <div className="flex items-center gap-2 text-red-600 mb-3 animate-pulse">
-          <TrendingUp size={14} />
-          <span className="text-[9px] font-black uppercase tracking-[0.4em]">Knowledge_Stream_Active</span>
+          <TrendingUp size={20} />
         </div>
         <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-tight">
-          MASTERING <span className="text-red-600">THE CODE.</span>
+          ARTIKEL <span className="text-red-600">KAMI.</span>
         </motion.h1>
         <p className="max-w-2xl text-zinc-500 text-xs md:text-sm mt-4 leading-relaxed italic border-l border-red-600 pl-4">
-          Dokumentasi riset mendalam strategi <span className="text-white font-bold italic">Fullstack Development</span> & <span className="text-white font-bold italic">Cyber Security</span> Indonesia.
+          Dokumentasi, Tutorial, & Informasi <span className="text-white font-bold italic">Fullstack Development</span> & <span className="text-white font-bold italic">Cyber Security</span> Indonesia.
         </p>
       </header>
 
-      {/* 3. ARTIKEL CARD: GAYA GAHAR */}
       <section className="flex-grow">
         <AnimatePresence mode="popLayout">
           {loading ? (
@@ -142,7 +137,6 @@ export default function BlogDash() {
                     href={`/blog/${post.slug}`}
                     className="flex flex-col sm:flex-row gap-6 bg-zinc-900/10 border border-zinc-900 hover:border-red-600/40 p-6 rounded-[2.5rem] transition-all duration-500 hover:bg-zinc-900/20 block h-full"
                   >
-                    {/* THUMBNAIL AREA */}
                     <div className="w-full sm:w-44 h-44 bg-black rounded-[2rem] overflow-hidden border border-zinc-800 shrink-0 relative shadow-2xl">
                       <img src={post.image_url || "/no-img.png"} alt={post.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
                     </div>
@@ -161,7 +155,6 @@ export default function BlogDash() {
                         <p className="text-zinc-500 text-xs line-clamp-2 italic leading-relaxed opacity-60">{post.excerpt || "Eksplorasi mendalam mengenai implementasi teknologi terbaru dalam ekosistem digital modern."}</p>
                       </div>
 
-                      {/* METADATA */}
                       <div className="flex items-center gap-4 pt-4 border-t border-zinc-900 mt-4 text-zinc-700">
                         <div className="flex items-center gap-1.5 font-mono text-[8px] font-black uppercase">
                           <Calendar size={12} /> {new Date(post.created_at).toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" })}
@@ -182,7 +175,6 @@ export default function BlogDash() {
         </AnimatePresence>
       </section>
 
-      {/* 4. PAGINATION */}
       {!loading && totalPages > 1 && (
         <nav className="flex justify-center items-center gap-6 mt-16 mb-12" aria-label="Pagination Blog">
           <button
@@ -223,17 +215,6 @@ export default function BlogDash() {
           </button>
         </nav>
       )}
-
-      {/* 5. FOOTER INTEGRATED */}
-      <footer className="mt-auto pt-10 border-t border-zinc-900">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-zinc-700 text-[8px] font-mono font-black uppercase tracking-[0.4em]">© 2026 ALAM_DEV // UNPAS_INFORMATIKA // BANDUNG_ID</p>
-          <div className="flex gap-8 text-zinc-700 text-[8px] font-mono font-black uppercase tracking-widest">
-            <span className="hover:text-red-600 cursor-default transition-colors">Operational_Status: Stable</span>
-            <span className="hidden md:block">Lat: -6.9147 // Lon: 107.6098</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

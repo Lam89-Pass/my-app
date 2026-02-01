@@ -1,6 +1,5 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-// IMPORT SEMUA SECTIONS KAMU
 import HomeDashboard from "./sections/home-dashboard";
 import KelolaProject from "./sections/kelola-project";
 import KelolaBlog from "./sections/kelola-blog";
@@ -10,9 +9,8 @@ import KelolaContact from "./sections/kelola-contact";
 
 export default function AdminPage() {
   const searchParams = useSearchParams();
-  const currentMenu = searchParams.get("menu") || "home"; // Default ke home [cite: 21]
+  const currentMenu = searchParams.get("menu") || "home"; 
 
-  // LOGIKA RENDER MENU
   const renderContent = () => {
     switch (currentMenu) {
       case "home":

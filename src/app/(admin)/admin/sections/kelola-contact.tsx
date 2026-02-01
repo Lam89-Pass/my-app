@@ -8,8 +8,6 @@ export default function KelolaContact() {
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // STATE POPUP
   const [showNotify, setShowNotify] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [idToDelete, setIdToDelete] = useState<string | null>(null);
@@ -37,16 +35,14 @@ export default function KelolaContact() {
 
   const selectedMessage = messages.find((m) => m.id === selectedId);
 
-  // TRIGGER KONFIRMASI
   const triggerDelete = (id: string) => {
     setIdToDelete(id);
     setShowConfirm(true);
   };
 
-  // EKSEKUSI HAPUS REAL (DATABASE)
   const executeDelete = async () => {
     if (!idToDelete) return;
-    setShowConfirm(false); // Tutup popup tanya
+    setShowConfirm(false); 
 
     try {
       const res = await fetch(`/api/contact?id=${idToDelete}`, { method: "DELETE" });
@@ -71,25 +67,22 @@ export default function KelolaContact() {
 
   return (
     <div className="flex flex-col h-full bg-black text-white p-4 md:p-10 selection:bg-red-600/30 relative">
-      {/* HEADER */}
       <div className="flex justify-between items-end mb-12">
         <div>
-          <div className="flex items-center gap-2 text-red-600 mb-3 animate-pulse italic">
+          <div className="flex items-center gap-2 text-red-600 mb-3 animate-pulse">
             <ShieldAlert size={14} />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Contact_Management_v2.1</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Contact Management</span>
           </div>
-          <h1 className="text-5xl font-black uppercase tracking-tighter italic">
+          <h1 className="text-5xl font-black uppercase tracking-tighter">
             KELOLA <span className="text-red-600 font-outline-2 text-transparent">CONTACT.</span>
           </h1>
         </div>
-        <button onClick={fetchMessages} className="hidden lg:flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-zinc-800 hover:text-red-600 transition-colors italic">
-          <RefreshCcw size={12} /> SYNC_DATABASE
+        <button onClick={fetchMessages} className="hidden lg:flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-zinc-800 hover:text-red-600 transition-colors">
+          <RefreshCcw size={12} /> SYNC DATABASE
         </button>
       </div>
 
-      {/* INTERFACE */}
       <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8 flex-grow overflow-hidden border-t border-zinc-900 pt-10">
-        {/* SIDEBAR */}
         <div className="flex flex-col gap-4 overflow-y-auto pr-3 custom-scrollbar">
           <div className="relative mb-6">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-800" size={18} />
@@ -129,7 +122,6 @@ export default function KelolaContact() {
           </AnimatePresence>
         </div>
 
-        {/* CONTENT VIEWER */}
         <div className="bg-zinc-950/20 border border-zinc-900 rounded-[4rem] p-10 md:p-14 relative flex flex-col min-h-[600px]">
           {selectedMessage ? (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="h-full flex flex-col">
@@ -171,7 +163,6 @@ export default function KelolaContact() {
         </div>
       </div>
 
-      {/* 🛑 1. POPUP KONFIRMASI HAPUS */}
       <AnimatePresence>
         {showConfirm && (
           <div className="fixed inset-0 z-[600] flex items-center justify-center px-6">
@@ -200,7 +191,6 @@ export default function KelolaContact() {
         )}
       </AnimatePresence>
 
-      {/* ✅ 2. POPUP NOTIFIKASI BERHASIL */}
       <AnimatePresence>
         {showNotify && (
           <div className="fixed inset-0 z-[601] flex items-center justify-center px-6">

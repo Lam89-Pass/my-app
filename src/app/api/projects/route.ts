@@ -18,7 +18,6 @@ export async function POST(req: Request) {
   return NextResponse.json(data);
 }
 
-// FIX: Tambahkan handler PUT untuk Update
 export async function PUT(req: Request) {
   const body = await req.json();
   const { id, ...updateData } = body;
@@ -27,7 +26,6 @@ export async function PUT(req: Request) {
   return NextResponse.json(data);
 }
 
-// FIX: Tambahkan handler DELETE
 export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id');

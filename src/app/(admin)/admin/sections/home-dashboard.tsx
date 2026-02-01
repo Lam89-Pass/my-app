@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Folder, Book, Mail, Cpu, Briefcase, Users, ChevronRight, Zap } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
 
-// Inisialisasi Supabase Client
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
 export default function HomeDashboard() {
@@ -69,13 +68,11 @@ const fetchDashboardData = async () => {
     <div className="pt-24 lg:pt-0 space-y-12 pb-20 selection:bg-red-600/30">
       <header className="relative group px-2">
         <div className="absolute -left-4 top-0 h-full w-1 bg-red-600 transition-all duration-500 group-hover:shadow-[0_0_20px_#dc2626]" />
-
-        {/* FIX: Menghapus class uppercase agar SysExpOwn tidak jadi kapital semua */}
         <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter transition-transform duration-300 group-hover:translate-x-2">
           Selamat Datang, <span className="text-red-600 hover:text-white transition-colors cursor-default">SysExpOwn</span>
         </h1>
 
-        <p className="text-zinc-500 text-[10px] font-bold mt-4 max-w-2xl leading-relaxed uppercase tracking-widest">Panel kendali utama untuk mengelola seluruh ekosistem digital portofolio Anda.</p>
+        <p className="text-zinc-500 text-[10px] font-bold mt-4 max-w-2xl leading-relaxed uppercase tracking-widest">Panel kendali utama untuk mengelola seluruh ekosistem digital portofolio saya.</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Loader2, ArrowRight, Calendar, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-
-// Import Swiper components & styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -31,14 +29,12 @@ export default function Blog() {
 
   return (
     <section id="blog" className="py-24 bg-black overflow-hidden selection:bg-red-600/30">
-      {/* Custom Style untuk Bullet Pagination */}
       <style>{`
         .swiper-pagination-bullet { background: #3f3f46; opacity: 1; }
         .swiper-pagination-bullet-active { background: #dc2626 !important; width: 28px; border-radius: 4px; transition: all 0.3s; }
       `}</style>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* HEADER SECTION (SEO & COPYWRITING OPTIMIZED) */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl">
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
@@ -49,10 +45,9 @@ export default function Blog() {
               Eksplorasi mendalam seputar <span className="text-zinc-300 font-bold">Fullstack Development</span>, strategi <span className="text-zinc-300 font-bold">Cyber Security</span>, dan tren teknologi masa kini untuk solusi digital
               yang inovatif.
             </p>
-            <p className="text-zinc-700 text-[10px] font-mono mt-2 uppercase tracking-[0.3em] font-bold">{`> INSIGHTS_&_TECHNOLOGIES_LOG`}</p>
+            <p className="text-zinc-700 text-[10px] font-mono mt-2 uppercase tracking-[0.3em] font-bold">{`> INSIGHTS & TECHNOLOGIES`}</p>
           </div>
 
-          {/* Navigasi ke Halaman Blog Archive (BlogDash) */}
           <Link href="/blog" className="group flex items-center gap-2 text-zinc-500 hover:text-white transition-all font-black text-[10px] uppercase tracking-widest border-b border-transparent hover:border-red-600 pb-1">
             LIHAT SEMUA ARTIKEL <ArrowRight size={14} className="text-red-600 group-hover:translate-x-2 transition-transform duration-300" />
           </Link>
@@ -71,7 +66,7 @@ export default function Blog() {
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
             breakpoints={{
-              1024: { slidesPerView: 2 }, // Tampilan 2 kolom di Desktop
+              1024: { slidesPerView: 2 }, 
             }}
             className="!pb-20"
           >
@@ -83,12 +78,10 @@ export default function Blog() {
                     title={`Baca selengkapnya: ${post.title}`}
                     className="group relative flex gap-6 bg-zinc-900/10 border border-zinc-900 p-6 rounded-[2.5rem] transition-all duration-500 hover:border-red-600/40 hover:bg-zinc-900/20 hover:shadow-[0_20px_40px_rgba(220,38,38,0.05)] block h-full"
                   >
-                    {/* THUMBNAIL AREA */}
                     <div className="w-28 h-28 md:w-44 md:h-44 bg-black rounded-3xl overflow-hidden border border-zinc-800 shrink-0 relative transition-transform duration-500 group-hover:scale-[0.98]">
                       <img src={post.image_url || "/no-img.png"} alt={`Gambar artikel ${post.title}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-in-out" />
                     </div>
 
-                    {/* CONTENT AREA */}
                     <div className="flex flex-col justify-between flex-1 min-w-0">
                       <div>
                         <div className="flex justify-between items-start mb-3">
@@ -103,7 +96,6 @@ export default function Blog() {
                         </p>
                       </div>
 
-                      {/* METADATA */}
                       <div className="flex items-center gap-4 pt-4 border-t border-zinc-900 mt-4 group-hover:border-red-600/20 transition-colors">
                         <div className="flex items-center gap-2">
                           <Calendar size={12} className="text-zinc-700" />

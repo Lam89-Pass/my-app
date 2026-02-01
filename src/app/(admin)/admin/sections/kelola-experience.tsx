@@ -93,10 +93,9 @@ export default function KelolaExperience() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase italic">
+          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase ">
             Kelola <span className="text-red-600">Experience</span>
           </h1>
-          <p className="text-zinc-600 text-[10px] font-mono mt-1 uppercase tracking-[0.3em] italic">{`> CAREER_HISTORY_DATABASE`}</p>
         </div>
         <button
           onClick={() => {

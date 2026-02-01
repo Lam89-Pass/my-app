@@ -5,7 +5,6 @@ import { ArrowLeft, Lock } from "lucide-react";
 
 export default function LoginPage() {
   return (
-    // Pake <div> paling luar, jangan <html> atau <body>
     <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-white">
       <Link href="/" className="fixed top-8 left-8 flex items-center gap-2 text-zinc-500 hover:text-white transition-all text-xs uppercase font-bold tracking-widest">
         <ArrowLeft size={16} /> Back to Home

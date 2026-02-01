@@ -25,7 +25,6 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
     if (slug) fetchDetail();
   }, [slug]);
 
-  // FUNGSI SHARE ARTIKEL (Bukan fitur setengah-setengah!)
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -38,7 +37,6 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
         console.log("Share dibatalkan atau error", err);
       }
     } else {
-      // Fallback copy link jika browser tidak support Web Share API
       navigator.clipboard.writeText(window.location.href);
       alert("Link disalin ke clipboard!");
     }
@@ -67,7 +65,6 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-red-600 origin-left z-[110]" style={{ scaleX }} />
 
       <article className="max-w-6xl mx-auto px-6 pt-4 pb-32">
-        {/* NAV SEJAJAR */}
         <nav className="flex items-center justify-between mb-12 border-b border-zinc-900 pb-6">
           <Link href="/blog" className="group flex items-center gap-3 text-zinc-500 hover:text-white transition-colors">
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -79,7 +76,6 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-16 items-start">
-          {/* MAIN CONTENT AREA */}
           <div>
             <header className="mb-12">
               <div className="flex items-center gap-3 text-red-600 mb-6">
@@ -100,14 +96,12 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
             </section>
           </div>
 
-          {/* SIDEBAR INFO */}
           <aside className="sticky top-24 space-y-10 border-l border-zinc-900 pl-10 hidden lg:block">
             <div className="space-y-6">
               <div className="space-y-2">
-                <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest italic">Published_By</p>
+                <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest italic">Published By</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center font-black text-white text-xs italic shadow-lg shadow-red-600/20">S</div>
-                  <span className="text-white text-xs font-black tracking-widest">SysExp</span> {/* Nama diganti */}
+                  <span className="text-white text-xs font-black tracking-widest">Admin SysExp</span>
                 </div>
               </div>
 
@@ -117,9 +111,7 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
                   <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-tight">
                     <Calendar size={14} className="text-red-600" /> {new Date(post.created_at).toLocaleDateString("id-ID")}
                   </div>
-                  <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-tight">
-                    <Clock size={14} className="text-red-600" /> 5 Min Read
-                  </div>
+
                   <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-tight">
                     <ShieldCheck size={14} className="text-red-600" /> Verified Content
                   </div>
@@ -128,28 +120,18 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
             </div>
 
             <div className="pt-10 border-t border-zinc-900">
-              <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest italic mb-6">Interaction</p>
-              {/* TOMBOL SHARE BERFUNGSI */}
+              <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest mb-6">Interaction</p>
               <button
                 onClick={handleShare}
                 className="w-full flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 rounded-2xl text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-white hover:border-red-600 transition-all shadow-md group"
               >
-                Share_Article <Share2 size={14} className="group-hover:rotate-12 transition-transform" />
+                Share Article <Share2 size={14} className="group-hover:rotate-12 transition-transform" />
               </button>
             </div>
 
-            {/* Bagian riset dikembangkan bla bla sudah dihapus sesuai instruksi */}
           </aside>
         </div>
       </article>
-
-      {/* FOOTER */}
-      <footer className="max-w-6xl mx-auto px-6 py-10 border-t border-zinc-900">
-        <div className="flex justify-between items-center text-zinc-800 text-[8px] font-mono font-black uppercase tracking-[0.4em]">
-          <span>© 2026 // SYSEXP_INTERNAL_DOCS</span>
-          <span>Security_Grade: A+</span>
-        </div>
-      </footer>
     </div>
   );
 }

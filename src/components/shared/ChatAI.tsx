@@ -24,7 +24,6 @@ export default function ChatAI() {
     setInput("");
     setLoading(true);
 
-    // LOGIKA PINTU RAHASIA (Gak butuh API Google)
     if (userMsg === "SysExpOwn Login") {
       setTimeout(() => {
         setMessages((prev) => [

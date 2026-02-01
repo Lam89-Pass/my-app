@@ -43,11 +43,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* --- DESKTOP NAVBAR (Top) --- */}
       {!isMobile && (
         <div className="fixed top-8 w-full z-50 px-6 md:px-12 flex justify-center">
           <nav className="relative w-full max-w-7xl h-16 bg-zinc-950/40 backdrop-blur-2xl border border-white/10 rounded-full px-10 flex items-center justify-between shadow-2xl transition-all duration-700 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]">
-            {/* Logo */}
             <Link href="#home" className="flex items-center gap-2 group shrink-0">
               <ShieldCheck className="text-red-600 group-hover:rotate-12 transition-transform" size={22} />
               <span className="text-base font-bold tracking-tight text-white">
@@ -55,7 +53,6 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Nav Links */}
             <div className="flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] uppercase">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.name || (pathname === link.href && link.name === "blog");
@@ -71,15 +68,14 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* Socials */}
             <div className="flex items-center gap-5 border-l border-white/10 pl-8 shrink-0">
-              <a href="https://github.com" target="_blank" className="text-zinc-400 hover:text-white transition-all hover:scale-110">
+              <a href="https://github.com/Lam89-Pass" target="_blank" className="text-zinc-400 hover:text-white transition-all hover:scale-110">
                 <Github size={18} />
               </a>
-              <a href="https://instagram.com" target="_blank" className="text-zinc-400 hover:text-red-500 transition-all hover:scale-110">
+              <a href="https://www.instagram.com/lam.xyz_/" target="_blank" className="text-zinc-400 hover:text-red-500 transition-all hover:scale-110">
                 <Instagram size={18} />
               </a>
-              <a href="https://linkedin.com" target="_blank" className="text-zinc-400 hover:text-white transition-all hover:scale-110">
+              <a href="https://www.linkedin.com/in/muhamadnursalam/" target="_blank" className="text-zinc-400 hover:text-white transition-all hover:scale-110">
                 <Linkedin size={18} />
               </a>
             </div>
@@ -87,7 +83,6 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* --- MOBILE NAVBAR (Bottom - Instagram Style) --- */}
       {isMobile && (
         <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99] w-[90%] max-w-[380px]">
           <div className="bg-zinc-950/90 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-2 flex justify-around items-center shadow-[0_20px_50px_rgba(0,0,0,0.8)]">

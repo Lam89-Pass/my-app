@@ -81,10 +81,9 @@ export default function KelolaSkills() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase italic">
-            Tech <span className="text-red-600">Arsenal</span>
+          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase ">
+            Kelola. <span className="text-red-600">Skills</span>
           </h1>
-          <p className="text-zinc-600 text-[10px] font-mono mt-1 uppercase tracking-[0.3em] italic">{`> SKILLS_AND_TECHNOLOGIES_DB`}</p>
         </div>
         <button
           onClick={() => {
@@ -98,7 +97,6 @@ export default function KelolaSkills() {
         </button>
       </div>
 
-      {/* FILTER SEARCH */}
       <div className="bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50 flex flex-col md:flex-row gap-3 items-center">
         <div className="relative flex-1 w-full">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-700" size={16} />
@@ -111,7 +109,6 @@ export default function KelolaSkills() {
         </div>
       </div>
 
-      {/* MODAL FORM (REVISI: CENTERED & SLIM) */}
       {isFormOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsFormOpen(false)} />
@@ -166,7 +163,6 @@ export default function KelolaSkills() {
         </div>
       )}
 
-      {/* LIST DATA DENGAN SISTEM BADGE */}
       <div className="flex flex-wrap gap-3">
         {loading ? (
           <div className="w-full p-20 text-center text-zinc-800 font-mono text-[10px] animate-pulse italic tracking-[0.5em]">SCANNING_ARSENAL...</div>
@@ -197,7 +193,6 @@ export default function KelolaSkills() {
         )}
       </div>
 
-      {/* POPUP STATUS (BIG) */}
       {statusPopup.show && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 backdrop-blur-md">
           <div className="bg-zinc-950 border border-zinc-800 p-10 md:p-16 rounded-[2.5rem] md:rounded-[4rem] text-center animate-in zoom-in duration-300 shadow-2xl max-w-xs md:max-w-md w-full">
@@ -208,7 +203,6 @@ export default function KelolaSkills() {
         </div>
       )}
 
-      {/* MODAL KONFIRMASI */}
       {modal.show && (
         <div className="fixed inset-0 z-[190] flex items-center justify-center p-6 bg-black/90 backdrop-blur-sm">
           <div className="bg-zinc-900 border border-zinc-800 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] max-w-xs md:max-w-md w-full animate-in zoom-in duration-200 shadow-2xl">

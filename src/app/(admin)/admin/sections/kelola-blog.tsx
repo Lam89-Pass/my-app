@@ -24,7 +24,6 @@ export default function KelolaBlog() {
 
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  // STATE POPUP REVISI
   const [showConfirm, setShowConfirm] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
   const [idToDelete, setIdToDelete] = useState(null);
@@ -81,7 +80,6 @@ export default function KelolaBlog() {
         setEditId(null);
         fetchBlogs();
 
-        // Popup Berhasil Simpan
         setStatusPopup({ success: true, message: "Artikel berhasil diperbarui!" });
         setShowNotify(true);
       }
@@ -90,7 +88,6 @@ export default function KelolaBlog() {
     }
   };
 
-  // FUNGSI EKSEKUSI HAPUS
   const handleDelete = async () => {
     if (!idToDelete) return;
     setShowConfirm(false);
@@ -114,13 +111,11 @@ export default function KelolaBlog() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 relative px-4 md:px-0">
-      {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase italic">
+          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase">
             Kelola <span className="text-red-600 font-outline-2 text-transparent">Blog</span>
           </h1>
-          <p className="text-zinc-600 text-[10px] font-mono mt-1 uppercase tracking-[0.3em] italic">{`> ARTICLE_CMS_ACTIVE`}</p>
         </div>
         <button
           onClick={() => {
@@ -134,7 +129,6 @@ export default function KelolaBlog() {
         </button>
       </div>
 
-      {/* FILTER SEARCH */}
       <div className="bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50">
         <div className="relative w-full">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-700" size={16} />
@@ -147,7 +141,6 @@ export default function KelolaBlog() {
         </div>
       </div>
 
-      {/* MODAL FORM */}
       {isFormOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setIsFormOpen(false)} />
@@ -214,7 +207,6 @@ export default function KelolaBlog() {
         </div>
       )}
 
-      {/* LIST BLOG */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 col-span-2 gap-4">
@@ -265,7 +257,6 @@ export default function KelolaBlog() {
         )}
       </div>
 
-      {/* 🛑 POPUP KONFIRMASI HAPUS */}
       <AnimatePresence>
         {showConfirm && (
           <div className="fixed inset-0 z-[600] flex items-center justify-center px-6">
@@ -294,7 +285,6 @@ export default function KelolaBlog() {
         )}
       </AnimatePresence>
 
-      {/* ✅ POPUP NOTIFIKASI BERHASIL */}
       <AnimatePresence>
         {showNotify && (
           <div className="fixed inset-0 z-[601] flex items-center justify-center px-6">

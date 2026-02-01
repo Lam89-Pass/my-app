@@ -3,7 +3,7 @@
 :root {
   --background: #050505;
   --foreground: #ffffff;
-  --primary-red: #8b0000; /* Dark Red */
+  --primary-red: #8b0000; 
   --accent-red: #ff0000;
 }
 
@@ -14,7 +14,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar Merah */
 ::-webkit-scrollbar {
   width: 5px;
 }

@@ -5,7 +5,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // 1. LOGIC UNTUK MONITORING KUNJUNGAN (VISIT_LOG)
     if (body.type === "VISIT_LOG") {
       const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1467342342204948512/njitltmLGr8nsADbqLp0Ho7MycCqrFKzVqaykvt4OBMTaQ44tB77IWKgBYPsTcFTSuvV";
 
@@ -32,13 +31,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Visit Log Reported" }, { status: 200 });
     }
 
-    // 2. LOGIC UNTUK PESAN CONTACT BIASA
     const { name, email, subject, message } = body;
     const { error: dbError } = await supabase.from("contacts").insert([{ name, email, subject, message, is_read: false }]);
 
     if (dbError) throw dbError;
 
-    // Notifikasi Discord untuk Pesan Baru
     const CONTACT_WEBHOOK = "URL_WEBHOOK_DISCORD_KAMU";
     if (CONTACT_WEBHOOK?.startsWith("https")) {
       await fetch(CONTACT_WEBHOOK, {
@@ -67,7 +64,6 @@ export async function POST(req: Request) {
   }
 }
 
-// Handler GET tetap sama untuk Dashboard Admin
 export async function GET() {
   const { data, error } = await supabase.from("contacts").select("*").order("created_at", { ascending: false });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

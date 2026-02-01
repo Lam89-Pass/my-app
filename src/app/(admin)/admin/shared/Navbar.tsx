@@ -2,11 +2,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { LayoutDashboard, FolderKanban, BookOpen, User, Cpu, Mail, Menu, X, Shield, ExternalLink, LogOut, HelpCircle, Loader2 } from "lucide-react";
+import { LayoutDashboard, FolderKanban, BookOpen, User, Cpu, Mail, Menu, X, Shield, ExternalLink, LogOut, HelpCircle, Loader2, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@supabase/supabase-js";
 
-// Inisialisasi Supabase
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
 export default function Navbar() {
@@ -42,11 +41,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* MOBILE HEADER */}
       <div className="lg:hidden bg-zinc-950 border-b border-zinc-900 p-4 flex justify-between items-center sticky top-0 z-[60]">
         <div className="flex items-center gap-2">
           <Shield className="text-red-600" size={20} />
-          {/* LOGO TEGAK NORMAL */}
           <span className="text-white font-black tracking-tighter text-sm">
             SysExp<span className="text-red-600 font-bold">Own</span>
           </span>
@@ -56,7 +53,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* SIDEBAR */}
       <aside
         className={`
           fixed inset-y-0 left-0 z-50 w-72 bg-zinc-950 border-r border-zinc-900 transition-transform duration-300 transform
@@ -65,17 +61,13 @@ export default function Navbar() {
         `}
       >
         <div className="flex flex-col h-full p-6 overflow-y-auto">
-          {/* AREA LOGO SIDEBAR */}
           <div className="flex items-center gap-3 mb-10 px-2">
-            <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-              <Shield className="text-white" size={24} />
-            </div>
+              <ShieldCheck className="text-red-600 group-hover:rotate-12 transition-transform" size={30} />
             <span className="text-white font-black text-xl tracking-tighter">
               SysExp<span className="text-red-600 font-bold">Own</span>
             </span>
           </div>
 
-          {/* NAV: MT-16 BIAR GAK NABRAK LOGO DI MOBILE */}
           <nav className="flex-1 space-y-2 pt-10 lg:pt-0">
             {menus.map((item) => (
               <Link
@@ -92,19 +84,17 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* FOOTER NAV: LOGOUT & PORTFOLIO */}
           <div className="mt-10 pt-6 space-y-2 border-t border-zinc-900">
             <Link href="/" target="_blank" className="flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold text-[11px] text-zinc-500 hover:text-white hover:bg-zinc-900 uppercase tracking-widest transition-all">
               <ExternalLink size={18} /> Lihat Portofolio
             </Link>
             <button onClick={() => setShowLogoutConfirm(true)} className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold text-[11px] text-red-600 hover:bg-red-600/10 uppercase tracking-widest transition-all">
-              <LogOut size={18} /> Logout_System
+              <LogOut size={18} /> Logout System
             </button>
           </div>
         </div>
       </aside>
 
-      {/* POPUP LOGOUT CENTERED */}
       <AnimatePresence>
         {showLogoutConfirm && (
           <div className="fixed inset-0 z-[200] flex items-center justify-center px-6">
@@ -137,8 +127,6 @@ export default function Navbar() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* OVERLAY */}
       {isOpen && <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 lg:hidden" onClick={() => setIsOpen(false)} />}
     </>
   );

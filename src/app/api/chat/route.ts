@@ -7,7 +7,6 @@ Jika pertanyaan di luar konteks portofolio atau teknologi, tolak dengan sopan da
 
 export async function POST(req: Request) {
   try {
-    // ── 1. Validasi input ──
     const body = await req.json();
     const { message } = body;
 
@@ -18,10 +17,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // ── 2. Ambil API key dari env (tanpa NEXT_PUBLIC_) ──
     const apiKey = process.env.GEMINI_API_KEY;
 
-    // DEBUG — hapus baris ini setelah chatbot jalan
     console.log("ENV KEYS yang tersedia:", Object.keys(process.env).filter(k => k.includes("GEMINI")));
     console.log("GEMINI_API_KEY value:", apiKey ? `${apiKey.slice(0, 8)}...` : "undefined");
 
@@ -33,11 +30,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // ── 3. Init Gemini dengan model terbaru ──
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-    // ── 4. Kirim dengan system prompt ──
     const result = await model.generateContent([
       { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
       { role: "model", parts: [{ text: "Siap, saya akan membantu sesuai konteks." }] },

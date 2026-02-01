@@ -5,8 +5,6 @@ import { Github, ArrowUpRight, Loader2, ChevronLeft, ChevronRight, Calendar, Cod
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -50,12 +48,10 @@ export default function Project() {
   return (
     <section id="project" className="relative py-28 bg-[#060606] overflow-hidden" suppressHydrationWarning>
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* HEADER SECTION */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
-            <div className="block mb-3 text-[10px] font-bold uppercase tracking-[0.5em] text-red-600">Masterpiece_Archive</div>
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase">
-              PROJECT<span className="text-red-600">.</span>
+              My <span className="text-red-600">Project.</span>
             </h2>
             <p className="mt-4 text-sm font-medium text-zinc-500 max-w-md leading-relaxed">Eksplorasi solusi digital yang menggabungkan estetika visual dengan performa kode tingkat tinggi.</p>
           </div>
@@ -167,8 +163,6 @@ function ProjectCard({ project }: { project: Project }) {
               </a>
             )}
           </div>
-
-          {/* FIX: TOMBOL WAJIB ADA. KALAU GAK ADA LINK, ARAHKAN KE ID PROJECT (STAY) */}
           <a
             href={project.demo_url || "#project"}
             target={project.demo_url ? "_blank" : "_self"}

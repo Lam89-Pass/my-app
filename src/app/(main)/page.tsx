@@ -11,7 +11,6 @@ import { createClient } from "@supabase/supabase-js";
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
 export default function LandingPage() {
-  // TRACKER & DISCORD REPORTER
   useEffect(() => {
     const trackAndReport = async () => {
       const now = new Date();
@@ -23,7 +22,6 @@ export default function LandingPage() {
       };
 
       try {
-        // Simpan ke database Supabase
         await supabase.from("page_views").insert([
           {
             page_path: visitData.path,
@@ -31,7 +29,6 @@ export default function LandingPage() {
           },
         ]);
 
-        // Lapor ke Discord via API Route
         await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
