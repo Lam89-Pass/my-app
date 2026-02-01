@@ -34,7 +34,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           # Kita upload ke folder 'apps' agar tidak bentrok dengan sistem cPanel
           local-dir: ./
-          server-dir: apps/
+          server-dir: /my-app/
           exclude: |
             **/.git*
             **/.github*
