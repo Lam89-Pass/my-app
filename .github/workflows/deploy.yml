@@ -3,7 +3,7 @@ name: Bantai Deploy Dewaweb
 on:
   push:
     branches:
-      - main # Ganti ke 'master' kalau branch lu namanya master
+      - main # Pastikan ini sesuai dengan branch utama lu
 
 jobs:
   build-and-deploy:
@@ -16,16 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Sesuaikan dengan versi Node di Dewaweb lu
+          node-version: '20'
 
       - name: Install & Build
         run: |
           npm install
           npm run build
         env:
-          # Masukkan semua ENV lu di sini supaya build-nya nggak error
           NEXT_PUBLIC_GEMINI_API_KEY: ${{ secrets.NEXT_PUBLIC_GEMINI_API_KEY }}
-          # Jika ada API Backend Laravel:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: 🚀 Deploy via FTP
@@ -34,13 +32,15 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # Kita upload semua file yang sudah siap. 
-          # Folder .next dan public adalah yang paling krusial.
+          # Kita upload ke folder 'apps' agar tidak bentrok dengan sistem cPanel
           local-dir: ./
+          server-dir: apps/
           exclude: |
             **/.git*
             **/.github*
-            node_modules/**
-            src/**
+            **/node_modules/**
+            **/src/**
             README.md
             .env*
+            .gitignore
+            package-lock.json
