@@ -1,0 +1,11 @@
+DirectoryIndex disabled
+RewriteEngine On
+
+# Forward semua request ke Node.js App yang jalan di port internal
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+
+# Keamanan tambahan: Jangan biarkan orang liat folder .git atau .env
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.env
