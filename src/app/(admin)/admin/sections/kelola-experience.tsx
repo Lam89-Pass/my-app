@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Plus, Trash2, Loader2, Briefcase, Edit3, X, Search, CheckCircle2, AlertCircle, HelpCircle, ChevronLeft, ChevronRight, Calendar, MapPin } from "lucide-react";
 
 export default function KelolaExperience() {
-  const [experiences, setExperiences] = useState([]);
+  const [experiences, setExperiences] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
   const [editId, setEditId] = useState(null);
