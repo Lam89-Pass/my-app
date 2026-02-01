@@ -2,16 +2,32 @@
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Trash2, Loader2, Cpu, Edit3, X, Search, CheckCircle2, AlertCircle, HelpCircle, Tag } from "lucide-react";
 
+// 1. TAMBAHKAN INTERFACE SKILL BIAR TS GAK BINGUNG
+interface Skill {
+  id: string;
+  name: string;
+  category: string;
+}
+
 export default function KelolaSkills() {
-  const [skills, setSkills] = useState([]);
+  // 2. BERI TIPE DATA <Skill[]> PADA STATE
+  const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [formData, setFormData] = useState({ name: "", category: "Frontend" });
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [modal, setModal] = useState({ show: false, title: "", message: "", onConfirm: null });
+
+  // 3. FIX STATE MODAL BIAR ONCONFIRM BISA TERIMA FUNGSI
+  const [modal, setModal] = useState<{
+    show: boolean;
+    title: string;
+    message: string;
+    onConfirm: (() => void | Promise<void>) | null;
+  }>({ show: false, title: "", message: "", onConfirm: null });
+
   const [statusPopup, setStatusPopup] = useState({ show: false, success: true, message: "" });
 
   const categories = ["Frontend", "Backend", "Database", "Tools", "Security", "Other"];
@@ -22,6 +38,8 @@ export default function KelolaSkills() {
       const res = await fetch("/api/skills");
       const data = await res.json();
       setSkills(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
     } finally {
       setLoading(false);
     }
@@ -59,21 +77,26 @@ export default function KelolaSkills() {
       showStatus(false, "System error.");
     } finally {
       setBtnLoading(false);
-      setModal({ ...modal, show: false });
+      setModal((prev) => ({ ...prev, show: false }));
     }
   };
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/skills?id=${id}`, { method: "DELETE" });
-    if (res.ok) {
-      showStatus(true, "Skill removed.");
-      fetchSkills();
+    try {
+      const res = await fetch(`/api/skills?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        showStatus(true, "Skill removed.");
+        fetchSkills();
+      }
+    } catch (error) {
+      showStatus(false, "Failed to delete.");
+    } finally {
+      setModal((prev) => ({ ...prev, show: false }));
     }
-    setModal({ ...modal, show: false });
   };
 
   const filteredData = useMemo(() => {
-    return skills.filter((s: any) => (s.name || "").toLowerCase().includes(searchQuery.toLowerCase()) || (s.category || "").toLowerCase().includes(searchQuery.toLowerCase()));
+    return skills.filter((s) => (s.name || "").toLowerCase().includes(searchQuery.toLowerCase()) || (s.category || "").toLowerCase().includes(searchQuery.toLowerCase()));
   }, [skills, searchQuery]);
 
   return (
@@ -167,7 +190,7 @@ export default function KelolaSkills() {
         {loading ? (
           <div className="w-full p-20 text-center text-zinc-800 font-mono text-[10px] animate-pulse italic tracking-[0.5em]">SCANNING_ARSENAL...</div>
         ) : (
-          filteredData.map((s: any) => (
+          filteredData.map((s) => (
             <div key={s.id} className="group bg-zinc-900/30 border border-zinc-800/50 pl-5 pr-2 py-2 rounded-2xl flex items-center gap-4 hover:border-red-600/30 transition-all">
               <div className="flex flex-col">
                 <span className="text-white font-bold text-xs">{s.name}</span>
@@ -210,10 +233,15 @@ export default function KelolaSkills() {
             <h3 className="text-white font-bold text-center text-xs md:text-lg uppercase tracking-widest">{modal.title}</h3>
             <p className="text-zinc-500 text-center text-[10px] md:text-xs mt-3 leading-relaxed">{modal.message}</p>
             <div className="flex gap-3 mt-8">
-              <button onClick={() => setModal({ ...modal, show: false })} className="flex-1 py-3.5 bg-zinc-800 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase transition-colors hover:bg-zinc-700">
+              <button onClick={() => setModal((prev) => ({ ...prev, show: false }))} className="flex-1 py-3.5 bg-zinc-800 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase transition-colors hover:bg-zinc-700">
                 Batal
               </button>
-              <button onClick={modal.onConfirm} className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase shadow-red-600/30 hover:bg-red-700 transition-colors">
+              <button
+                onClick={() => {
+                  if (modal.onConfirm) modal.onConfirm();
+                }}
+                className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase shadow-red-600/30 hover:bg-red-700 transition-colors"
+              >
                 Lanjut
               </button>
             </div>
