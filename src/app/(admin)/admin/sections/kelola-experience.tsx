@@ -2,11 +2,23 @@
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Trash2, Loader2, Briefcase, Edit3, X, Search, CheckCircle2, AlertCircle, HelpCircle, ChevronLeft, ChevronRight, Calendar, MapPin } from "lucide-react";
 
+// 1. TAMBAHKAN INTERFACE INI BIAR TYPESCRIPT GAK BINGUNG
+interface Experience {
+  id: string;
+  company: string;
+  role: string;
+  start_date: string;
+  end_date?: string;
+  description?: string;
+  location?: string;
+}
+
 export default function KelolaExperience() {
-  const [experiences, setExperiences] = useState<any[]>([]);
+  // 2. KASIH TIPE DATA <Experience[]> PADA STATE
+  const [experiences, setExperiences] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +34,15 @@ export default function KelolaExperience() {
   });
 
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [modal, setModal] = useState({ show: false, title: "", message: "", onConfirm: null });
+  
+  // 3. FIX STATE MODAL BIAR ONCONFIRM BISA TERIMA FUNGSI APA PUN
+  const [modal, setModal] = useState<{
+    show: boolean;
+    title: string;
+    message: string;
+    onConfirm: (() => void) | null;
+  }>({ show: false, title: "", message: "", onConfirm: null });
+
   const [statusPopup, setStatusPopup] = useState({ show: false, success: true, message: "" });
 
   const fetchExperiences = async () => {
@@ -31,6 +51,8 @@ export default function KelolaExperience() {
       const res = await fetch("/api/experience");
       const data = await res.json();
       setExperiences(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching:", error);
     } finally {
       setLoading(false);
     }
@@ -68,25 +90,32 @@ export default function KelolaExperience() {
       showStatus(false, "Gagal menyimpan data.");
     } finally {
       setBtnLoading(false);
-      setModal({ ...modal, show: false });
+      setModal(prev => ({ ...prev, show: false }));
     }
   };
 
   const handleDelete = async (id: string) => {
-    const res = await fetch(`/api/experience?id=${id}`, { method: "DELETE" });
-    if (res.ok) {
-      showStatus(true, "Data dihapus.");
-      fetchExperiences();
+    try {
+      const res = await fetch(`/api/experience?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        showStatus(true, "Data dihapus.");
+        fetchExperiences();
+      }
+    } catch (error) {
+      showStatus(false, "Gagal menghapus.");
+    } finally {
+      setModal(prev => ({ ...prev, show: false }));
     }
-    setModal({ ...modal, show: false });
   };
 
   const filteredData = useMemo(() => {
-    return experiences.filter((e: any) => (e.company || "").toLowerCase().includes(searchQuery.toLowerCase()) || (e.role || "").toLowerCase().includes(searchQuery.toLowerCase()));
+    return experiences.filter((e) => 
+      (e.company || "").toLowerCase().includes(searchQuery.toLowerCase()) || 
+      (e.role || "").toLowerCase().includes(searchQuery.toLowerCase())
+    );
   }, [experiences, searchQuery]);
 
   const currentItems = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 relative px-4 md:px-0">
@@ -122,12 +151,10 @@ export default function KelolaExperience() {
         </div>
       </div>
 
-      {/* MODAL FORM REVISI: LEBIH KE ATAS DI MOBILE */}
+      {/* MODAL FORM */}
       {isFormOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-6">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsFormOpen(false)} />
-
-          {/* REVISI: items-center pada parent dan p-4 pada container memastikan modal ada di tengah/atas, bukan nempel bawah */}
           <div className="bg-zinc-900 border border-zinc-800 w-full md:max-w-lg rounded-[2.5rem] relative z-[120] animate-in zoom-in duration-300 max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
             <div className="p-5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
               <h2 className="text-white font-bold uppercase text-[9px] tracking-widest flex items-center gap-2">
@@ -197,7 +224,7 @@ export default function KelolaExperience() {
         {loading ? (
           <div className="p-20 text-center text-zinc-800 font-mono text-[10px] animate-pulse italic tracking-[0.5em]">SYNCING_HISTORY...</div>
         ) : (
-          currentItems.map((ex: any) => (
+          currentItems.map((ex) => (
             <div key={ex.id} className="group bg-zinc-900/30 border border-zinc-800/50 p-6 rounded-[2rem] flex flex-col md:flex-row md:items-center justify-between hover:border-red-600/30 transition-all gap-4">
               <div className="flex gap-5 items-center">
                 <div className="w-12 h-12 bg-zinc-800 rounded-2xl flex items-center justify-center border border-zinc-700 group-hover:bg-red-600 transition-colors">
@@ -215,7 +242,7 @@ export default function KelolaExperience() {
                 <button
                   onClick={() => {
                     setEditId(ex.id);
-                    setFormData({ ...ex });
+                    setFormData({ ...ex, end_date: ex.end_date || "", description: ex.description || "", location: ex.location || "" });
                     setIsFormOpen(true);
                   }}
                   className="p-3 bg-zinc-800 hover:bg-white hover:text-black rounded-xl transition-all"
@@ -234,7 +261,7 @@ export default function KelolaExperience() {
         )}
       </div>
 
-      {/* POPUP BERHASIL/GAGAL */}
+      {/* STATUS POPUP */}
       {statusPopup.show && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 backdrop-blur-md">
           <div className="bg-zinc-950 border border-zinc-800 p-10 md:p-16 rounded-[2.5rem] md:rounded-[4rem] text-center animate-in zoom-in duration-300 shadow-2xl max-w-xs md:max-w-md w-full">
@@ -253,10 +280,10 @@ export default function KelolaExperience() {
             <h3 className="text-white font-bold text-center text-xs md:text-lg uppercase tracking-widest">{modal.title}</h3>
             <p className="text-zinc-500 text-center text-[10px] md:text-xs mt-3 leading-relaxed">{modal.message}</p>
             <div className="flex gap-3 mt-8">
-              <button onClick={() => setModal({ ...modal, show: false })} className="flex-1 py-3.5 bg-zinc-800 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase transition-colors hover:bg-zinc-700">
+              <button onClick={() => setModal(prev => ({ ...prev, show: false }))} className="flex-1 py-3.5 bg-zinc-800 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase transition-colors hover:bg-zinc-700">
                 Batal
               </button>
-              <button onClick={modal.onConfirm} className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase shadow-red-600/30 hover:bg-red-700 transition-colors">
+              <button onClick={() => { if(modal.onConfirm) modal.onConfirm(); }} className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold text-[9px] md:text-[11px] uppercase shadow-red-600/30 hover:bg-red-700 transition-colors">
                 Lanjut
               </button>
             </div>
