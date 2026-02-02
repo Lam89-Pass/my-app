@@ -6,11 +6,24 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
+// 1. TAMBAHKAN INTERFACE BLOG BIAR TS GAK BINGUNG
+interface Blog {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  image_url: string;
+  category: string;
+  is_published: boolean;
+  created_at: string;
+}
+
 export default function KelolaBlog() {
-  const [blogs, setBlogs] = useState<any[]>([]);
+  // 2. BERI TIPE DATA <Blog[]> PADA STATE
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const [editId, setEditId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [formData, setFormData] = useState({
@@ -26,7 +39,7 @@ export default function KelolaBlog() {
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
-  const [idToDelete, setIdToDelete] = useState(null);
+  const [idToDelete, setIdToDelete] = useState<string | null>(null);
   const [statusPopup, setStatusPopup] = useState({ success: true, message: "" });
 
   const fetchBlogs = async () => {
@@ -35,6 +48,8 @@ export default function KelolaBlog() {
       const res = await fetch("/api/blogs");
       const data = await res.json();
       setBlogs(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
     } finally {
       setLoading(false);
     }
@@ -57,6 +72,8 @@ export default function KelolaBlog() {
         data: { publicUrl },
       } = supabase.storage.from("projects").getPublicUrl(filePath);
       setFormData({ ...formData, image_url: publicUrl });
+    } catch (error) {
+      console.error("Upload failed:", error);
     } finally {
       setBtnLoading(false);
     }
@@ -111,6 +128,7 @@ export default function KelolaBlog() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 relative px-4 md:px-0">
+      {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase">
@@ -129,6 +147,7 @@ export default function KelolaBlog() {
         </button>
       </div>
 
+      {/* SEARCH BAR */}
       <div className="bg-zinc-900/40 p-4 rounded-3xl border border-zinc-800/50">
         <div className="relative w-full">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-700" size={16} />
@@ -141,72 +160,77 @@ export default function KelolaBlog() {
         </div>
       </div>
 
-      {isFormOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setIsFormOpen(false)} />
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-zinc-900 border border-zinc-800 w-full md:max-w-2xl rounded-[2.5rem] relative z-[120] max-h-[90vh] flex flex-col overflow-hidden shadow-2xl"
-          >
-            <div className="p-5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
-              <h2 className="text-white font-bold uppercase text-[9px] tracking-widest flex items-center gap-2">
-                <FileText className="text-red-600" size={14} /> Editor Artikel
-              </h2>
-              <button onClick={() => setIsFormOpen(false)} className="p-2 bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-colors">
-                <X size={16} />
-              </button>
-            </div>
-
-            <form
-              className="p-6 space-y-4 overflow-y-auto custom-scrollbar"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSave();
-              }}
+      {/* MODAL EDITOR */}
+      <AnimatePresence>
+        {isFormOpen && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setIsFormOpen(false)} />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-zinc-900 border border-zinc-800 w-full md:max-w-2xl rounded-[2.5rem] relative z-[120] max-h-[90vh] flex flex-col overflow-hidden shadow-2xl"
             >
-              <div className="group relative w-full h-32 md:h-44 bg-black border-2 border-dashed border-zinc-800 rounded-2xl flex flex-col items-center justify-center overflow-hidden hover:border-red-600 transition-all">
-                {formData.image_url ? (
-                  <img src={formData.image_url} className="w-full h-full object-cover" />
-                ) : (
-                  <>
-                    <UploadCloud size={24} className="text-zinc-800 group-hover:text-red-600" />
-                    <p className="text-[8px] text-zinc-600 font-bold mt-2 uppercase">Thumbnail Artikel</p>
-                  </>
-                )}
-                <input type="file" accept="image/*" onChange={handleFileUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
+              <div className="p-5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
+                <h2 className="text-white font-bold uppercase text-[9px] tracking-widest flex items-center gap-2">
+                  <FileText className="text-red-600" size={14} /> Editor Artikel
+                </h2>
+                <button onClick={() => setIsFormOpen(false)} className="p-2 bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-colors">
+                  <X size={16} />
+                </button>
               </div>
 
-              <input
-                placeholder="Judul Artikel"
-                className="w-full bg-black/40 border border-zinc-800 p-4 rounded-xl text-white text-xs outline-none focus:border-red-600 font-bold"
-                value={formData.title || ""}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-              />
-              <input
-                placeholder="Excerpt (Ringkasan singkat)"
-                className="w-full bg-black/40 border border-zinc-800 p-4 rounded-xl text-white text-xs outline-none focus:border-red-600 italic"
-                value={formData.excerpt || ""}
-                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-              />
-              <textarea
-                placeholder="Isi Konten (Markdown/HTML Support)..."
-                rows={8}
-                className="w-full bg-black/40 border border-zinc-800 p-4 rounded-xl text-white text-[11px] font-mono outline-none focus:border-red-600 resize-none text-justify"
-                value={formData.content || ""}
-                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                required
-              />
+              <form
+                className="p-6 space-y-4 overflow-y-auto custom-scrollbar"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSave();
+                }}
+              >
+                <div className="group relative w-full h-32 md:h-44 bg-black border-2 border-dashed border-zinc-800 rounded-2xl flex flex-col items-center justify-center overflow-hidden hover:border-red-600 transition-all">
+                  {formData.image_url ? (
+                    <img src={formData.image_url} className="w-full h-full object-cover" alt="thumb" />
+                  ) : (
+                    <>
+                      <UploadCloud size={24} className="text-zinc-800 group-hover:text-red-600" />
+                      <p className="text-[8px] text-zinc-600 font-bold mt-2 uppercase">Thumbnail Artikel</p>
+                    </>
+                  )}
+                  <input type="file" accept="image/*" onChange={handleFileUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
+                </div>
 
-              <button type="submit" disabled={btnLoading} className="w-full bg-red-600 text-white py-4 rounded-xl font-black text-[10px] tracking-[.3em] uppercase hover:bg-red-700 transition-all shadow-xl shadow-red-600/20">
-                {btnLoading ? <Loader2 className="animate-spin mx-auto" /> : "Publish Article"}
-              </button>
-            </form>
-          </motion.div>
-        </div>
-      )}
+                <input
+                  placeholder="Judul Artikel"
+                  className="w-full bg-black/40 border border-zinc-800 p-4 rounded-xl text-white text-xs outline-none focus:border-red-600 font-bold"
+                  value={formData.title || ""}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  required
+                />
+                <input
+                  placeholder="Excerpt (Ringkasan singkat)"
+                  className="w-full bg-black/40 border border-zinc-800 p-4 rounded-xl text-white text-xs outline-none focus:border-red-600 italic"
+                  value={formData.excerpt || ""}
+                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                />
+                <textarea
+                  placeholder="Isi Konten (Markdown/HTML Support)..."
+                  rows={8}
+                  className="w-full bg-black/40 border border-zinc-800 p-4 rounded-xl text-white text-[11px] font-mono outline-none focus:border-red-600 resize-none text-justify"
+                  value={formData.content || ""}
+                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                  required
+                />
 
+                <button type="submit" disabled={btnLoading} className="w-full bg-red-600 text-white py-4 rounded-xl font-black text-[10px] tracking-[.3em] uppercase hover:bg-red-700 transition-all shadow-xl shadow-red-600/20">
+                  {btnLoading ? <Loader2 className="animate-spin mx-auto" /> : "Publish Article"}
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ARTICLE LIST */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 col-span-2 gap-4">
@@ -216,10 +240,10 @@ export default function KelolaBlog() {
         ) : (
           blogs
             .filter((b) => b.title.toLowerCase().includes(searchQuery.toLowerCase()))
-            .map((blog: any) => (
+            .map((blog) => (
               <div key={blog.id} className="group bg-zinc-900/30 border border-zinc-800/50 p-5 rounded-[2.5rem] flex flex-col gap-4 hover:border-red-600/30 transition-all">
                 <div className="h-44 bg-zinc-800 rounded-3xl overflow-hidden border border-zinc-800 relative">
-                  <img src={blog.image_url || "https://placehold.co/400x200/000/fff?text=No+Thumbnail"} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src={blog.image_url || "https://placehold.co/400x200/000/fff?text=No+Thumbnail"} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="thumb" />
                   <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-700">
                     <span className="text-[8px] font-black uppercase text-red-600 tracking-widest italic">{blog.category || "TECH"}</span>
                   </div>
@@ -233,7 +257,7 @@ export default function KelolaBlog() {
                       <button
                         onClick={() => {
                           setEditId(blog.id);
-                          setFormData(blog);
+                          setFormData({ ...blog });
                           setIsFormOpen(true);
                         }}
                         className="p-3 bg-zinc-900 hover:bg-white hover:text-black rounded-xl border border-zinc-800 transition-all"
@@ -257,6 +281,7 @@ export default function KelolaBlog() {
         )}
       </div>
 
+      {/* CONFIRMATION DIALOG */}
       <AnimatePresence>
         {showConfirm && (
           <div className="fixed inset-0 z-[600] flex items-center justify-center px-6">
@@ -285,6 +310,7 @@ export default function KelolaBlog() {
         )}
       </AnimatePresence>
 
+      {/* NOTIFICATION */}
       <AnimatePresence>
         {showNotify && (
           <div className="fixed inset-0 z-[601] flex items-center justify-center px-6">
