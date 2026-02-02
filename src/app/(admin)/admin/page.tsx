@@ -1,4 +1,4 @@
-"use client"; // Tambahkan ini di baris paling atas
+"use client";
 
 import dynamicImport from "next/dynamic";
 
