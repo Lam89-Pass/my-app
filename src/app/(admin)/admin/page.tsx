@@ -1,9 +1,7 @@
-export const dynamic = "force-dynamic";
+"use client"; // Tambahkan ini di baris paling atas
 
-import { Suspense } from "react";
 import dynamicImport from "next/dynamic";
 
-// Kita bungkus pakai dynamic import dengan ssr: false
 const AdminDashboard = dynamicImport(() => import("./AdminDashboard"), {
   ssr: false,
   loading: () => (
@@ -15,8 +13,8 @@ const AdminDashboard = dynamicImport(() => import("./AdminDashboard"), {
 
 export default function AdminPage() {
   return (
-    <Suspense fallback={null}>
+    <div>
       <AdminDashboard />
-    </Suspense>
+    </div>
   );
 }
