@@ -1,6 +1,10 @@
 import { Suspense } from "react";
 import AdminDashboard from "./AdminDashboard";
 
+// Tambahkan ini untuk disable static generation
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function AdminPage() {
   return (
     <Suspense
