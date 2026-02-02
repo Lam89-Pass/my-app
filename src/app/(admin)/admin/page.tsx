@@ -1,18 +1,22 @@
-"use client";
+export const dynamic = "force-dynamic";
 
-import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import dynamicImport from "next/dynamic";
 
-// BANTAI PRERENDER: Paksa total ke Client Side
-const AdminDashboard = dynamic(() => import("./AdminDashboard"), {
+// Kita bungkus pakai dynamic import dengan ssr: false
+const AdminDashboard = dynamicImport(() => import("./AdminDashboard"), {
   ssr: false,
   loading: () => (
-    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center">
-      <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
-      <p className="mt-4 text-zinc-500 font-mono text-[10px] uppercase tracking-widest">SYSTEM_OVERRIDE_ACTIVE...</p>
+    <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
     </div>
   ),
 });
 
 export default function AdminPage() {
-  return <AdminDashboard />;
+  return (
+    <Suspense fallback={null}>
+      <AdminDashboard />
+    </Suspense>
+  );
 }
