@@ -1,4 +1,5 @@
 "use client";
+
 import { useSearchParams } from "next/navigation";
 import HomeDashboard from "./sections/home-dashboard";
 import KelolaProject from "./sections/kelola-project";
@@ -7,7 +8,7 @@ import KelolaExperience from "./sections/kelola-experience";
 import KelolaSkills from "./sections/kelola-skills";
 import KelolaContact from "./sections/kelola-contact";
 
-export default function AdminDashboardClean() {
+export default function AdminDashboard() {
   const searchParams = useSearchParams();
   const currentMenu = searchParams.get("menu") || "home";
 
