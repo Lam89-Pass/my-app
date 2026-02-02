@@ -51,9 +51,12 @@ const fetchDashboardData = async () => {
   }
 };
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+useEffect(() => {
+  const loadData = async () => {
+    await fetchDashboardData();
+  };
+  loadData();
+}, []);
 
   const cardData = [
     { label: "Total Project", value: stats.projects, icon: <Folder />, color: "from-blue-600/20" },

@@ -39,7 +39,7 @@ export default function About() {
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl md:text-5xl font-black tracking-tighter mb-4 uppercase text-black dark:text-white">
             About <span className="text-red-600">Me.</span>
           </motion.h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl mx-auto italic">"Mengenal lebih dekat perjalanan saya di dunia teknologi dan pengembangan web."</p>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm md:text-base max-w-xl mx-auto italic">Mengenal lebih dekat perjalanan saya di dunia teknologi dan pengembangan web.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-32">

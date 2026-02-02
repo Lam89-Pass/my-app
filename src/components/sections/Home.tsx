@@ -24,7 +24,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-zinc-600 dark:text-zinc-400 text-sm md:text-base max-w-lg mb-10 leading-relaxed italic border-l-2 border-red-600/30 pl-4">
-            "Setiap dev punya jalurnya sendiri. Ada yang murni manual, ada yang collab sama AI. Apapun jalannya, yang penting jangan stop upgrade skill. Di bidang ini, ilmu itu mata uang yang gak pernah devaluasi."
+            Setiap dev punya jalurnya sendiri. Ada yang murni manual, ada yang collab sama AI. Apapun jalannya, yang penting jangan stop upgrade skill. Di bidang ini, ilmu itu mata uang yang gak pernah devaluasi.
           </p>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">

@@ -48,7 +48,7 @@ export default function Contact() {
         <div className="relative z-10">
           <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-3 text-red-600 mb-8">
             <span className="w-12 h-[2px] bg-red-600" />
-            <span className="text-[10px] font-black uppercase tracking-[0.5em]">Hubungi_Saya</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em]">Hubungi Saya</span>
           </motion.div>
 
           <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85] mb-10 italic">
