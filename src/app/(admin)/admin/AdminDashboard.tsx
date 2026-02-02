@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import HomeDashboard from "./sections/home-dashboard";
 import KelolaProject from "./sections/kelola-project";
@@ -9,18 +9,9 @@ import KelolaExperience from "./sections/kelola-experience";
 import KelolaSkills from "./sections/kelola-skills";
 import KelolaContact from "./sections/kelola-contact";
 
-export default function AdminDashboard() {
+function AdminContent() {
   const searchParams = useSearchParams();
-  const [mounted, setMounted] = useState(false);
   const currentMenu = searchParams.get("menu") || "home";
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   const renderContent = () => {
     switch (currentMenu) {
@@ -41,5 +32,21 @@ export default function AdminDashboard() {
     }
   };
 
-  return <div className="min-h-screen bg-zinc-950 text-white p-4 md:p-10 animate-in fade-in duration-500">{renderContent()}</div>;
+  return <div className="min-h-screen bg-zinc-950 text-white p-4 md:p-10">{renderContent()}</div>;
+}
+
+export default function AdminDashboard() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zinc-950" />}>
+      <AdminContent />
+    </Suspense>
+  );
 }
