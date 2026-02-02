@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import HomeDashboard from "./sections/home-dashboard";
 import KelolaProject from "./sections/kelola-project";
@@ -36,16 +36,14 @@ function AdminContent() {
 }
 
 export default function AdminDashboard() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
   return (
-    <Suspense fallback={<div className="min-h-screen bg-zinc-950" />}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+          <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      }
+    >
       <AdminContent />
     </Suspense>
   );
