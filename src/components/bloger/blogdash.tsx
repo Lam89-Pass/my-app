@@ -5,7 +5,7 @@ import { Search, Calendar, ArrowUpRight, ArrowLeft, ChevronLeft, ChevronRight, L
 import Link from "next/link";
 
 export default function BlogDash() {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("terbaru");
