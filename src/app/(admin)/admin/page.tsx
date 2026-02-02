@@ -1,14 +1,18 @@
 "use client";
+
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import HomeDashboard from "./sections/home-dashboard";
-import KelolaProject from "./sections/kelola-project";
-import KelolaBlog from "./sections/kelola-blog";
-import KelolaExperience from "./sections/kelola-experience";
-import KelolaSkills from "./sections/kelola-skills";
-import KelolaContact from "./sections/kelola-contact";
+import dynamic from "next/dynamic";
 
-// 1. PINDAHKAN LOGIKA KE KOMPONEN TERPISAH
+// Import sections secara dinamis untuk performa lebih enteng
+const HomeDashboard = dynamic(() => import("./sections/home-dashboard"), { ssr: false });
+const KelolaProject = dynamic(() => import("./sections/kelola-project"), { ssr: false });
+const KelolaBlog = dynamic(() => import("./sections/kelola-blog"), { ssr: false });
+const KelolaExperience = dynamic(() => import("./sections/kelola-experience"), { ssr: false });
+const KelolaSkills = dynamic(() => import("./sections/kelola-skills"), { ssr: false });
+const KelolaContact = dynamic(() => import("./sections/kelola-contact"), { ssr: false });
+
+// 1. Komponen Internal yang menggunakan searchParams
 function AdminContent() {
   const searchParams = useSearchParams();
   const currentMenu = searchParams.get("menu") || "home";
@@ -35,16 +39,14 @@ function AdminContent() {
   return <div className="min-h-screen bg-zinc-950 text-white p-4 md:p-10">{renderContent()}</div>;
 }
 
-// 2. BUNGKUS DENGAN SUSPENSE DI EXPORT UTAMA
+// 2. Export Utama yang MEMBUNGKUS Suspense
 export default function AdminPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-[0.3em]">Bantai_Loading_Admin...</p>
-          </div>
+        <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center gap-4">
+          <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-zinc-500 font-mono text-[10px] uppercase tracking-[0.5em] animate-pulse">Bantai_Loading_System...</p>
         </div>
       }
     >
